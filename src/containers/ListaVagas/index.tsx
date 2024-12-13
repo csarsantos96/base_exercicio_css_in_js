@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import FormVagas from '../../components/FormVagas'
+import styled from 'styled-components'
 
+import FormVagas from '../../components/FormVagas'
 import Vaga from '../../components/Vaga'
 
-import styles from './ListaVagas.module.css'
-
-type Vaga = {
-  id: string
+type VagaType = {
+  id: number
   titulo: string
   localizacao: string
   nivel: string
@@ -16,7 +15,7 @@ type Vaga = {
   requisitos: string[]
 }
 
-const vagas = [
+const vagas: VagaType[] = [
   {
     id: 1,
     titulo: 'Desenvolvedor front-end',
@@ -89,6 +88,21 @@ const vagas = [
   }
 ]
 
+const ListaContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+`
+
+const VagasList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+`
+
 const ListaVagas = () => {
   const [filtro, setFiltro] = useState<string>('')
 
@@ -97,23 +111,24 @@ const ListaVagas = () => {
   )
 
   return (
-    <div>
+    <ListaContainer>
       <FormVagas aoPesquisar={(termo: string) => setFiltro(termo)} />
-      <ul className={styles.vagas}>
+      <VagasList>
         {vagasFiltradas.map((vag) => (
-          <Vaga
-            key={vag.id}
-            titulo={vag.titulo}
-            localizacao={vag.localizacao}
-            nivel={vag.nivel}
-            modalidade={vag.modalidade}
-            salarioMin={vag.salarioMin}
-            salarioMax={vag.salarioMax}
-            requisitos={vag.requisitos}
-          />
+          <li key={vag.id}>
+            <Vaga
+              titulo={vag.titulo}
+              localizacao={vag.localizacao}
+              nivel={vag.nivel}
+              modalidade={vag.modalidade}
+              salarioMin={vag.salarioMin}
+              salarioMax={vag.salarioMax}
+              requisitos={vag.requisitos}
+            />
+          </li>
         ))}
-      </ul>
-    </div>
+      </VagasList>
+    </ListaContainer>
   )
 }
 
